@@ -280,23 +280,24 @@ function onSpinComplete(index){
   spinBtn.disabled = true;
   spinBtn.textContent = "Heute gedreht";
 
-  // Ergebnis an Google Sheets senden (optional)
-  if (SHEETS_URL && SHEETS_URL.indexOf('HIER_DEINE') === -1) {
-    try {
-      fetch(SHEETS_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          date: today,
-          points: points,
-          user: (localStorage.getItem('gluecksrad_user') || 'anonymous'),
-          angle: lastTargetIndex
-        })
-      }).catch(err => {
-        console.warn('Sheets POST failed:', err);
-      });
-    } catch(e){ console.warn('Sheets POST exception', e); }
-  }
+ // Ergebnis an Google Sheets senden (optional)
+if (SHEETS_URL && SHEETS_URL.indexOf('HIER_DEINE') === -1) {
+  try {
+    fetch(SHEETS_URL, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json' 
+      },
+      body: JSON.stringify({
+        date: today,
+        points: points,
+        user: (localStorage.getItem('gluecksrad_user') || 'anonymous'),
+        angle: lastTargetIndex
+      })
+    }).catch(err => {
+      console.warn('Sheets POST failed:', err);
+    });
+  } catch(e){ console.warn('Sheets POST exception', e); }
 }
 
 // --- Initialisierung / Event-Handling ---
@@ -332,5 +333,6 @@ init();
 </script>
 </body>
 </html>
+
 
 
